@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frans/Nederlands Oefening</title>
+    <link rel="stylesheet" href="/style/randomM1.css"> 
+</head>
+<body>
+
+    <a href="index.html" class="home-btn">← Home</a>
+
+    <div class="container">
+        <h1>Frans/Nederlands Oefening</h1>
+        
+        <div id="cardContainer" onclick="flipCard()">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p id="card-front-text">Laden...</p>
+                    </div>
+                    <div class="card-back">
+                        <p id="card-back-text">Laden...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls" id="controlsContainer">
+            <button onclick="handleIncorrect()" class="btn-fout">Fout</button>
+            <button onclick="flipCard()" class="btn-flip">Omdraaien</button>
+            <button onclick="handleCorrect()" class="btn-juist">Juist</button>
+        </div>
+
+        <button id="restartBtn" class="btn-restart" onclick="restartExercise()">Oefening Herstarten</button>
+
+        <div class="progress">
+            <p>Juist geraden: <span id="correctCount">0</span></p>
+            <p>Nog te gaan: <span id="remainingCount">0</span></p>
+        </div>
+
+    </div>
+
+    <script src="/javascript.js/RandomM1.js"></script>
+</body>
+</html>

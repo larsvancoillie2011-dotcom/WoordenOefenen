@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stijlvolle Website Layout</title>
+    <link rel="stylesheet" href="/style/FransHooft.css">
+    <link href="fonts.googleapis.com" rel="stylesheet">
+</head>
+<body>
+
+    <header class="top-bar">
+    </header>
+
+    <div class="main-container">
+
+        <aside class="left-nav">
+            <h2 class="nav-title">Dashboard</h2>
+            <nav>
+                <a href="/index.html">Home</a>
+                <a href="#sectie2">ander vak</a>
+                <a href="#sectie3">ander vak</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <h1>Frans</h1>
+            <p>Welkom bij de frans oefenaar.</p>
+            
+            <!-- Container voor de drie afhankelijke dropdowns -->
+            <div class="dropdown-container">
+                <label for="jaarSelect">Kies een jaar:</label>
+                <select id="jaarSelect" class="dropdown-select" onchange="updateDropdowns()">
+                    <option value="">-- Selecteer Jaar --</option>
+                    <option value="2025-26">2025-26</option>
+                    <option value="2026-27">2026-27</option>
+                    <option value="2027-28">2027-28</option>
+                    <option value="2028-29">2028-29</option>
+                </select>
+
+                <label for="werkboekSelect" id="werkboekLabel" style="display:none;">Kies een werkboek:</label>
+                <select id="werkboekSelect" class="dropdown-select" style="display:none;" onchange="updateDropdowns()">
+                    <option value="">-- Selecteer Werkboek --</option>
+                </select>
+
+                <label for="hoofdstukSelect" id="hoofdstukLabel" style="display:none;">Kies een hoofdstuk:</label>
+                <select id="hoofdstukSelect" class="dropdown-select" style="display:none;" onchange="window.location.href=this.value">
+                    <option value="">-- Selecteer Hoofdstuk --</option>
+                </select>
+            </div>
+
+        </main>
+
+    </div>
+    
+    <!-- JavaScript voor de afhankelijke dropdown logica -->
+    <script>
+        // Data structuur met alle paden in drie lagen
+        const navigatieData = {
+            '2025-26': {
+                'Hoofdstuk 1': [
+                    { name: 'M1', url: 'randomM1.html' },
+                    { name: 'M2', url: '/wb1/h2.html' }
+                ],
+                'Hoofdstuk 2': [
+                    { name: 'M1', url: '/wb2/h1.html' },
+                    { name: 'M2', url: '/wb2/h2.html' }
+                ]
+            },
+            '2026-27': {}, // voeg hier data toe
+            '2027-28': {}, // Voeg hier data toe
+            '2028-29': {}  // Voeg hier data toe
+        };
+
+        function updateDropdowns() {
+            const jaarSelect = document.getElementById('jaarSelect');
+            const werkboekSelect = document.getElementById('werkboekSelect');
+            const hoofdstukSelect = document.getElementById('hoofdstukSelect');
+            const werkboekLabel = document.getElementById('werkboekLabel');
+            const hoofdstukLabel = document.getElementById('hoofdstukLabel');
+
+            const selectedYear = jaarSelect.value;
+            const selectedWerkboek = werkboekSelect.value;
+            
+            // Leegmaken van werkboek en hoofdstuk lijsten bij elke wijziging in jaar/werkboek
+            werkboekSelect.innerHTML = '<option value="">-- Selecteer Werkboek --</option>';
+            hoofdstukSelect.innerHTML = '<option value="">-- Selecteer Hoofdstuk --</option>';
+            hoofdstukSelect.style.display = 'none';
+            hoofdstukLabel.style.display = 'none';
+
+            // Logica voor Jaar -> Werkboek
+            if (selectedYear && navigatieData[selectedYear]) {
+                const boeken = navigatieData[selectedYear];
+                for (const boekNaam in boeken) {
+                    const option = document.createElement('option');
+                    option.value = boekNaam; // De waarde is nu de naam, geen URL
+                    option.textContent = boekNaam;
+                    werkboekSelect.appendChild(option);
+                }
+                werkboekSelect.style.display = 'inline-block';
+                werkboekLabel.style.display = 'block';
+
+                // Als er al een werkboek geselecteerd was, selecteer deze opnieuw
+                if (selectedWerkboek && navigatieData[selectedYear][selectedWerkboek]) {
+                    werkboekSelect.value = selectedWerkboek;
+                }
+            } else {
+                werkboekSelect.style.display = 'none';
+                werkboekLabel.style.display = 'none';
+            }
+
+            // Logica voor Werkboek -> Hoofdstuk
+            // We controleren of de data voor het geselecteerde werkboek bestaat
+            if (selectedYear && selectedWerkboek && navigatieData[selectedYear][selectedWerkboek]) {
+                const hoofdstukken = navigatieData[selectedYear][selectedWerkboek];
+                hoofdstukken.forEach(hfdstk => {
+                    const option = document.createElement('option');
+                    option.value = hfdstk.url; // De waarde is nu de uiteindelijke URL
+                    option.textContent = hfdstk.name;
+                    hoofdstukSelect.appendChild(option);
+                });
+                hoofdstukSelect.style.display = 'inline-block';
+                hoofdstukLabel.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
