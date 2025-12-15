@@ -1,106 +1,129 @@
-// WOORDENLIJST - Bewaar de originele lijst apart om te kunnen herstarten
-const origineleWoordenLijstData = [
-    { frans: 'Bonjour', nederlands: 'Hallo' },
-    { frans: 'Merci', nederlands: 'Bedankt' },
-    { frans: 'Au revoir', nederlands: 'Tot ziens' },
-    { frans: 'Pomme', nederlands: 'Appel' },
-    { frans: 'Chien', nederlands: 'Hond' },
-    { frans: 'Chat', nederlands: 'Kat' },
-    { frans: 'Maison', nederlands: 'Huis' },
-    { frans: 'Voiture', nederlands: 'Auto' },
-    { frans: 'Fromage', nederlands: 'Kaas' },
-    { frans: 'Parapluie', nederlands: 'Paraplu' },
-];
+document.addEventListener("DOMContentLoaded", () => {
 
-let woordenLijst = []; // De actieve lijst die leegloopt tijdens de oefening
-let huidigeKaartIndex;
-let correctGeraden = 0;
-let origineleLijstLengte = 0;
+  const flashcards = [
+    { vraag: "Huis", antwoord: "House" },
+    { vraag: "Boom", antwoord: "Tree" },
+    { vraag: "Auto", antwoord: "Car" },
+    { vraag: "Huis", antwoord: "House" },
+    { vraag: "Boom", antwoord: "Tree" },
+    { vraag: "Auto", antwoord: "Car" },
+    { vraag: "Huis", antwoord: "House" },
+    { vraag: "Boom", antwoord: "Tree" },
+    { vraag: "Auto", antwoord: "Car" },
+    { vraag: "Huis", antwoord: "House" },
+    { vraag: "Boom", antwoord: "Tree" },
+    { vraag: "Auto", antwoord: "Car" },
+    { vraag: "Huis", antwoord: "House" },
+    { vraag: "Boom", antwoord: "Tree" },
+    { vraag: "Auto", antwoord: "Car" },
+    { vraag: "Water", antwoord: "Water" }
+  ];
 
-// Elementen uit de HTML halen
-const cardElement = document.querySelector('.card');
-const frontText = document.getElementById('card-front-text');
-const backText = document.getElementById('card-back-text');
-const correctCountEl = document.getElementById('correctCount');
-const remainingCountEl = document.getElementById('remainingCount');
-const controlsContainer = document.getElementById('controlsContainer');
-const restartBtn = document.getElementById('restartBtn');
+  let currentIndex = 0;
+  let wrongCards = [];
+  let activeCards = [...flashcards]; // direct starten
 
+  const cardFront = document.getElementById("cardFront");
+  const cardBack = document.getElementById("cardBack");
+  const flashcardEl = document.getElementById("flashcard");
+  const menuBtn = document.getElementById("menuBtn");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
 
-// Functie om de oefening te initialiseren of te herstarten
-function restartExercise() {
-    // Kopieer de originele data naar de actieve lijst
-    woordenLijst = [...origineleWoordenLijstData];
-    origineleLijstLengte = woordenLijst.length;
-    correctGeraden = 0;
-    
-    // Toon de bedieningselementen en verberg de herstartknop
-    controlsContainer.style.display = 'flex';
-    restartBtn.style.display = 'none';
+  // Sidebar toggle
+  menuBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("active");
+  });
 
-    toonWillekeurigeKaart();
-}
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+  });
 
-
-// Functie om een willekeurige kaart te tonen
-function toonWillekeurigeKaart() {
-    // Check of er nog kaarten over zijn
-    if (woordenLijst.length === 0) {
-        frontText.textContent = "Klaar!";
-        backText.textContent = "Alle woorden geoefend!";
-        controlsContainer.style.display = 'none'; // Verberg knoppen
-        restartBtn.style.display = 'block'; // Toon de herstartknop
-        cardElement.classList.remove('flipped');
-        updateProgress();
-        return;
+  // Flashcard flip
+  flashcardEl.addEventListener("click", () => {
+    if (!flashcardEl.classList.contains("flipped")) {
+      cardBack.textContent = activeCards[currentIndex].antwoord;
     }
+    flashcardEl.classList.toggle("flipped");
+  });
 
-    // Kies een willekeurige index uit de huidige lijst
-    const randomIndex = Math.floor(Math.random() * woordenLijst.length);
-    huidigeKaartIndex = randomIndex;
-    const kaartData = woordenLijst[randomIndex];
+  // Quiz functies
+  window.markCorrect = function() { nextCard(); }
+  window.markWrong = function() { wrongCards.push(activeCards[currentIndex]); nextCard(); }
+  window.repeatWrong = function() {
+    activeCards = [...wrongCards];
+    wrongCards = [];
+    currentIndex = 0;
+    loadCard();
+    showSection("quiz");
+  }
 
-    // Update de weergave van de kaart
-    frontText.textContent = kaartData.frans;
-    backText.textContent = kaartData.nederlands;
-    
-    // Zorg dat de kaart met de voorkant boven begint
-    cardElement.classList.remove('flipped'); 
-    updateProgress();
-}
+function loadCard() {
+  const card = activeCards[currentIndex];
+  cardFront.textContent = card.vraag;
+  cardBack.textContent = "";
+  flashcardEl.classList.remove("flipped");
 
-// Functie om de kaart om te draaien (gebruikt door de 'Omdraaien' knop of klikken)
-function flipCard() {
-    // Voeg een check toe zodat je niet kunt flippen als de oefening klaar is
-    if (woordenLijst.length > 0) {
-         cardElement.classList.toggle('flipped');
-    }
-}
-
-// Functie voor als de kaart 'Juist' is
-function handleCorrect() {
-    if (woordenLijst.length === 0) return; // Voorkom actie als klaar
-    // Verwijder de huidige kaart uit de lijst (splice verwijdert 1 element op de huidigeKaartIndex)
-    woordenLijst.splice(huidigeKaartIndex, 1); 
-    correctGeraden++;
-    toonWillekeurigeKaart(); // Toon direct de volgende willekeurige kaart
-}
-
-// Functie voor als de kaart 'Fout' is
-function handleIncorrect() {
-     if (woordenLijst.length === 0) return; // Voorkom actie als klaar
-    // De kaart blijft in de woordenLijst zitten, dus we tonen gewoon de volgende willekeurige kaart
-    toonWillekeurigeKaart();
-    // Optioneel: je kunt hier logica toevoegen om foute kaarten later vaker te laten terugkomen
-}
-
-// Functie om de voortgang bij te werken
-function updateProgress() {
-    correctCountEl.textContent = correctGeraden;
-    // Het aantal resterende kaarten is de huidige lengte van de dynamische lijst
-    remainingCountEl.textContent = woordenLijst.length; 
+  // Verberg resultaten-sectie onderdelen
+  document.getElementById("wrongList").innerHTML = "";
+  document.getElementById("repeatWrongBtn").classList.add("hidden");
+  document.getElementById("repeatAllBtn").classList.add("hidden");
+  document.getElementById("resultTitle").classList.add("hidden"); // verberg titel
 }
 
 
-// Start de oefening wanneer de pagina geladen is
-document.addEventListener('DOMContentLoaded', restartExercise);
+
+  function nextCard() {
+    currentIndex++;
+    if (currentIndex >= activeCards.length) showResults();
+    else loadCard();
+  }
+function showResults() {
+  const list = document.getElementById("wrongList");
+  const repeatWrongBtn = document.getElementById("repeatWrongBtn");
+  const repeatAllBtn = document.getElementById("repeatAllBtn");
+  const resultTitle = document.getElementById("resultTitle");
+
+  list.innerHTML = "";
+  repeatWrongBtn.classList.add("hidden");
+  repeatAllBtn.classList.add("hidden");
+
+  resultTitle.classList.remove("hidden"); // titel alleen zichtbaar in result
+
+  if (wrongCards.length === 0) {
+    list.innerHTML = "<li>Alles juist! 🎉</li>";
+    repeatAllBtn.classList.remove("hidden");
+  } else {
+    wrongCards.forEach(c => {
+      const li = document.createElement("li");
+      li.textContent = `${c.vraag} → ${c.antwoord}`;
+      list.appendChild(li);
+    });
+    repeatWrongBtn.classList.remove("hidden");
+  }
+
+  showSection("result");
+}
+
+// functie om de hele quiz opnieuw te starten
+window.repeatAll = function() {
+  activeCards = [...flashcards];
+  wrongCards = [];
+  currentIndex = 0;
+  loadCard();
+  showSection("quiz");
+};
+
+
+  function showSection(id) {
+    ["quiz","result"].forEach(sec => document.getElementById(sec).classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+  }
+
+  // direct quiz starten
+  showSection("quiz");
+  loadCard();
+
+});
