@@ -17,21 +17,40 @@ body { margin:0; font-family: sans-serif; background:#f0f0f0; }
 /* Sidebar */
 #sidebar {
     position: fixed;
-    top:0; left:-280px;
-    width:280px; height:100%;
-    display:flex; flex-direction:column; justify-content:flex-start;
+    top: 0;
+    left: -280px; /* Verberg standaard buiten beeld */
+    width: 280px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     background: linear-gradient(180deg,#2563eb,#1e40af);
-    color:white; padding:30px 20px;
-    border-top-right-radius:20px; border-bottom-right-radius:20px;
-    box-shadow:4px 0 15px rgba(0,0,0,0.3);
-    transition:left 0.4s ease; z-index:1000;
+    color: white;
+    padding: 30px 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+    transition: left 0.4s ease;
+    z-index: 1000;
 }
-#sidebar.open { left:0; }
+
+#sidebar.open {
+    left: 0; /* Alleen zichtbaar als open */
+}
+
 #overlay {
-    position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3);
-    display:none; z-index:900;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: none; /* Overlay standaard verborgen */
+    z-index: 900;
 }
-#overlay.active { display:block; }
+
+#overlay.active {
+    display: block; /* Overlay verschijnt pas bij open sidebar */
+}
+
 
 /* Home sectie */
 main { max-width:1200px; margin:0 auto; text-align:center; }
@@ -92,3 +111,4 @@ button.danger:hover { background:#b91c1c; }
     #sidebar { width:80%; }
     .button-row { flex-direction:column; gap:12px; }
 }
+
