@@ -1,49 +1,81 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Woorden oefenaar</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woorden Oefenaar</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="header-content">
-            <a href="index.html" class="logo">Woorden oefenaar</a>
-            <nav>
-                <a href="#home">knop</a>
-                <a href="#contact">knop</a>
-            </nav>
-        </div>
-    </header>
+<header class="site-header">
+    <div class="header-content">
+        <span class="logo">Woorden Oefenaar</span>
+        <button id="menuBtn">Menu</button>
+    </div>
+</header>
 
-    <main class="main-content">
-        
+<div id="overlay"></div>
+
+<div id="sidebar">
+    <h3>Menu</h3>
+    <div class="sidebar-content">
+        <!-- Leeg of extra info -->
+    </div>
+</div>
+
+<main>
+    <!-- Hoofdmenu sectie -->
+    <section id="home">
         <h1>Hoofdpagina Menu</h1>
-
         <div class="page-center-container">
-            
             <div class="button-box">
                 <p class="box-title">Maak een keuze:</p>
-                
+                <!-- Eerste rij: Frans -->
                 <div class="button-row">
-                    <a href="/WoordenOefenaar/htmll/randomM1.html" class="button">Frans</a>
-                    <a href="#pagina2" class="button">Werkt niet</a>
+                    <button class="button main-btn" id="startFrench">Frans</button>
                 </div>
 
+                <!-- Tweede rij: 2 knoppen naast elkaar -->
                 <div class="button-row">
-                    <a href="#pagina3" class="button">Werkt niet</a>
-                    <a href="#pagina4" class="button">Werkt niet</a>
+                    <button class="button sub-btn" id="showPlanning">Planning</button> <!-- Nieuwe knop -->
+                    <button class="button sub-btn">Spaans</button>
                 </div>
-                
             </div>
         </div>
+    </section>
 
-    </main>
+    <!-- Quiz sectie -->
+    <section id="quiz" class="hidden">
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-inner">
+                    <div class="card-face" id="cardFront"></div>
+                    <div class="card-face card-back" id="cardBack"></div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="primary" id="correctBtn">Juist</button>
+            <button class="danger" id="wrongBtn">Fout</button>
+        </div>
+    </section>
 
+    <!-- Resultaten sectie -->
+    <section id="result" class="hidden">
+        <h2 id="resultTitle">Foute woorden</h2>
+        <button class="primary hidden" id="repeatWrongBtn">Herhaal foute woorden</button>
+        <button class="primary hidden" id="repeatAllBtn">Herhaal alles</button>
+        <ul id="wrongList"></ul>
+    </section>
+    <!-- Planning sectie -->
+<section id="planning" class="hidden">
+    <h2>Planning</h2>
+    <img id="planningImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAa0AAAB1CAMAAADKkk7zAAAAkFBMVEX////P1+Bnt/+CmrV1iJ3k4+HI1uf5+PeKnrXv9v+MxP9st/+cvuKpx+mz0/fa2Na1tbTr6eaFwf+by/9ktP/Dv7vKx8O9xM21tbWwr63L0tp1vP9wgpXF2O7t6+ertL+pzPJGqP+cs8ylwuLZ4eqjoZ/U0s6Mo7yYt9e6yNetvc64y+GOqsihscJan+KAl7DfQCJ0AAACdUlEQVR4nO3cT1PTYBRG8WJa/pkUUQShRaIotqDy/b8dWxZvFhfOeyHpOctunpn+ZtosMnc2MzMzMzMzs6od/fiQ0Zkr0ZXjktbq52FCy4yRpJXblG+sL2p9/LWo39fud8LKeZuy0lwkrNwty1pH8G9rqZPuW8LKov2UsdLsJaycvqlWyveoFpJa0dSCVtRCUotJrWhqQStqIanFpFY0taAVtZDUYlIrmlrQilpIajGpFU0taEUtJLWY1IqmFrSiFpJaTL6XEW1Q66B+d93lrP7KSZuy0lzVHzlYlLVWf+b1W3cJI/N1v85Y2TQZKwPvE17v12+7vM9Y6VNWbh8yVnzKYFZ24ClDrVhqQStqIanFpFY0taAVtZDUYlIrmlrQilpIajGpFU0taEUtJLWY1IqmFrSiFpJaTGpFUwtaUQtJLSa1oqkFraiFNCWt7wNa+3v1u+huMlb6lJXNNmHlauDtz79NQn3GSNJKm/GNPb7tNcnT+ivnbcqK1ySRpvS/5VMGtKIWklpMakVTC1pRC0ktJrWiqQWtqIWkFpNa0dSCVtRCUotJrWhqQStqIanFpFY0taAVtZDUYlIrmlrQyg5o+V5GLK9JQiuTvyY57zNGklYmf03yvv+XsLLNWdlM/5rkZcLKTvxvJWz7TBhNLWhFLSS1mNSKpha0ohaSWkxqRVMLWlELSS0mtaKpBa2ohaQWk1rR1IJW1EJSi0mtaGpBK2ohqcWkVjS1oBW1kKakNXBNcpVyTXLpNcngSlnr/2HCbcSkHie00hS1jhMOMNoLKmp9ed3vq9Xqc+Eztd5rao0ptcaUWmNKrTGl1phSa0w903oCUTOuiYAEl44AAAAASUVORK5CYII=" alt="Planning" />
+</section>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
-
-
-
