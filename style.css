@@ -1,10 +1,12 @@
 * { box-sizing:border-box; margin:0; padding:0; font-family:sans-serif; }
 body { background:#f0f0f0; }
 
+/* Header */
 .site-header { background:#333; color:white; padding:10px; display:flex; justify-content:space-between; align-items:center; }
 .site-header button { background:#4f46e5; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; }
 .site-header button:hover { background:#3730a3; }
 
+/* Sidebar */
 #sidebar {
     position:fixed; top:0; left:-280px; width:280px; height:100%;
     background: linear-gradient(180deg,#2563eb,#1e40af);
@@ -19,14 +21,17 @@ body { background:#f0f0f0; }
 }
 #overlay.active { display:block; }
 
+/* Hidden class */
 .hidden { display:none !important; }
 
+/* Hoofdmenu */
 .page-center-container { display:flex; justify-content:center; padding:20px; }
 .button-box { background:white; padding:30px; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.1); display:flex; flex-direction:column; gap:20px; max-width:400px; width:100%; }
 .button-row { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
 .button { flex:1; padding:15px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; color:white; background:#007BFF; transition:0.2s; }
 .button:hover { background:#0056b3; }
 
+/* Flashcards */
 .flashcard-container { display:flex; justify-content:center; margin-top:40px; }
 .flashcard { width:420px; height:260px; perspective:1000px; cursor:pointer; }
 .card-inner { width:100%; height:100%; transition:0.6s; transform-style:preserve-3d; position:relative; }
@@ -35,19 +40,23 @@ body { background:#f0f0f0; }
 #cardFront { background:#2563eb; }
 #cardBack { background:#1e40af; transform:rotateY(180deg); }
 
+/* Buttons */
 .actions { display:flex; gap:20px; justify-content:center; margin-top:20px; }
 button.primary { background:#16a34a; color:white; padding:12px 20px; border:none; border-radius:10px; cursor:pointer; }
 button.primary:hover { background:#15803d; }
 button.danger { background:#dc2626; color:white; padding:12px 20px; border:none; border-radius:10px; cursor:pointer; }
 button.danger:hover { background:#b91c1c; }
 
+/* Resultaten */
 #result { display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:40px; }
 #wrongList { list-style:none; padding:0; margin:20px 0; display:flex; flex-direction:column; gap:6px; max-width:500px; width:90%; }
 #wrongList li { background:#fef3c7; color:#b45309; padding:8px 16px; border-radius:10px; }
 
+/* Planning */
 #planning { display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:40px; }
 #planning img { max-width:90%; border-radius:12px; }
 
+/* Responsive */
 @media (max-width:768px) {
     .flashcard { width:90%; height:220px; }
     .card-face { font-size:24px; }
