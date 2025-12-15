@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    // Sidebar toggle
+    // Sidebar
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrongBtn = document.getElementById("wrongBtn");
     const repeatWrongBtn = document.getElementById("repeatWrongBtn");
     const repeatAllBtn = document.getElementById("repeatAllBtn");
-
     const showPlanningBtn = document.getElementById("showPlanning");
     const planningSection = document.getElementById("planning");
 
@@ -64,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     repeatWrongBtn.addEventListener("click", () => {
-        if(wrongCards.length === 0) return;
+        if (wrongCards.length === 0) return;
         activeCards = [...wrongCards];
         wrongCards = [];
         currentIndex = 0;
@@ -130,5 +128,4 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("result").classList.add("hidden");
         planningSection.classList.add("hidden");
     }
-
 });
