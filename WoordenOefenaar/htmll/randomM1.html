@@ -1,53 +1,56 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frans/Nederlands Oefening</title>
-    <link rel="stylesheet" href="/WoordenOefenaar/style/randomM1.css"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards</title>
+  <link rel="stylesheet" href="/WoordenOefenaar/style/randomM1.css">
 </head>
 <body>
 
-    <a href="index.html" class="home-btn">← Home</a>
+<header>
+  <button id="menuBtn">Menu</button>
+</header>
 
-    <div class="container">
-        <h1>Frans/Nederlands Oefening</h1>
-        
-        <div id="cardContainer" onclick="flipCard()">
-            <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <p id="card-front-text">Laden...</p>
-                    </div>
-                    <div class="card-back">
-                        <p id="card-back-text">Laden...</p>
-                    </div>
-                </div>
-            </div>
+<div id="overlay"></div>
+
+<div id="sidebar">
+  <h3>Menu</h3>
+  <div class="sidebar-content">
+    <!-- Leeg, geen knoppen of tekst -->
+  </div>
+</div>
+
+<main>
+  <section id="quiz">
+    <div class="flashcard-container">
+      <div class="flashcard" id="flashcard">
+        <div class="card-inner">
+          <div class="card-face" id="cardFront"></div>
+          <div class="card-face card-back" id="cardBack"></div>
         </div>
-
-        <div class="controls" id="controlsContainer">
-            <button onclick="handleIncorrect()" class="btn-fout">Fout</button>
-            <button onclick="flipCard()" class="btn-flip">Omdraaien</button>
-            <button onclick="handleCorrect()" class="btn-juist">Juist</button>
-        </div>
-
-        <button id="restartBtn" class="btn-restart" onclick="restartExercise()">Oefening Herstarten</button>
-
-        <div class="progress">
-            <p>Juist geraden: <span id="correctCount">0</span></p>
-            <p>Nog te gaan: <span id="remainingCount">0</span></p>
-        </div>
-
+      </div>
     </div>
 
-    <script src="/WoordenOefenaar/javascript.js/RandomM1.js"></script>
+    <div class="actions">
+      <button class="primary" onclick="markCorrect()">Juist</button>
+      <button class="danger" onclick="markWrong()">Fout</button>
+    </div>
+  </section>
+
+<section id="result" class="hidden">
+  <h2 id="resultTitle">Foute woorden</h2>
+
+  <!-- Herhaal-knop boven de lijst -->
+  <button class="primary hidden" id="repeatWrongBtn" onclick="repeatWrong()">Herhaal foute woorden</button>
+  <button class="primary hidden" id="repeatAllBtn" onclick="repeatAll()">Herhaal alles</button>
+
+  <ul id="wrongList"></ul>
+</section>
+
+
+</main>
+
+<script src="/WoordenOefenaar/javascript.js/RandomM1.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
