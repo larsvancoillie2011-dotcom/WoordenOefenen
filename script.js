@@ -1,19 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 
-    // Sidebar elementen
-    const menuBtn = document.getElementById("menuBtn");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
+// Menu knop klik
+menuBtn.addEventListener("click", () => {
+    sidebar.classList.add("open");   // schuif sidebar naar binnen
+    overlay.classList.add("active"); // overlay tonen
+});
 
-    menuBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        overlay.classList.toggle("active");
-    });
-
-    overlay.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("active");
-    });
+// Overlay klik sluit sidebar
+overlay.addEventListener("click", () => {
+    sidebar.classList.remove("open");   // sidebar verbergen
+    overlay.classList.remove("active"); // overlay verbergen
+});
 
     // Flashcards
     const flashcards = [
@@ -117,3 +117,4 @@ document.addEventListener("DOMContentLoaded", () => {
             repeatAllBtn.classList.remove("hidden");
         } else {
             wrongCards.forEach(c =>
+
