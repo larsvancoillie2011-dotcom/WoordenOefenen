@@ -1,5 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // Sidebar elementen
+    const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+
+    // Sidebar toggle
+    menuBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("active");
+    });
+
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
+    });
+
+    // Flashcard elementen
     const flashcards = [
         { vraag: "Huis", antwoord: "House" },
         { vraag: "Boom", antwoord: "Tree" },
@@ -14,9 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardFront = document.getElementById("cardFront");
     const cardBack = document.getElementById("cardBack");
     const flashcardEl = document.getElementById("flashcard");
-    const menuBtn = document.getElementById("menuBtn");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
 
     const startFrench = document.getElementById("startFrench");
     const correctBtn = document.getElementById("correctBtn");
@@ -24,15 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const repeatWrongBtn = document.getElementById("repeatWrongBtn");
     const repeatAllBtn = document.getElementById("repeatAllBtn");
 
-    // Sidebar toggle
-    menuBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        overlay.classList.toggle("active");
-    });
-    overlay.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("active");
-    });
+    // Planning knop
+    const showPlanningBtn = document.getElementById("showPlanning");
+    const planningSection = document.getElementById("planning");
 
     // Flashcard flip
     flashcardEl.addEventListener("click", () => {
@@ -42,20 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
         flashcardEl.classList.toggle("flipped");
     });
 
-    // Start quiz bij klikken Frans
-startFrench.addEventListener("click", () => {
-    // Hoofdmenu verbergen
-    document.getElementById("home").classList.add("hidden");
+    // Start quiz Frans
+    startFrench.addEventListener("click", () => {
+        document.getElementById("home").classList.add("hidden"); // verberg hoofdmenu
+        planningSection.classList.add("hidden");                 // verberg planning sectie
+        activeCards = [...flashcards];
+        wrongCards = [];
+        currentIndex = 0;
+        showFlashcards();
+        loadCard();
+    });
 
-    // Start quiz
-    activeCards = [...flashcards];
-    wrongCards = [];
-    currentIndex = 0;
-    showFlashcards();
-    loadCard();
-});
-
-    // Juist / Fout knoppen
+    // Juist/Fout knoppen
     correctBtn.addEventListener("click", nextCard);
     wrongBtn.addEventListener("click", () => {
         wrongCards.push(activeCards[currentIndex]);
@@ -81,6 +87,15 @@ startFrench.addEventListener("click", () => {
         loadCard();
     });
 
+    // Planning knop functionaliteit
+    showPlanningBtn.addEventListener("click", () => {
+        document.getElementById("home").classList.add("hidden");  // verberg hoofdmenu
+        document.getElementById("quiz").classList.add("hidden");  // verberg quiz
+        document.getElementById("result").classList.add("hidden"); // verberg resultaten
+        planningSection.classList.remove("hidden");               // toon planning
+    });
+
+    // Laad een flashcard
     function loadCard() {
         const card = activeCards[currentIndex];
         cardFront.textContent = card.vraag;
@@ -95,12 +110,14 @@ startFrench.addEventListener("click", () => {
         document.getElementById("resultTitle").classList.add("hidden");
     }
 
+    // Ga naar volgende kaart
     function nextCard() {
         currentIndex++;
         if (currentIndex >= activeCards.length) showResults();
         else loadCard();
     }
 
+    // Toon resultaten / foute woorden
     function showResults() {
         // Verberg flashcards
         document.getElementById("quiz").classList.add("hidden");
@@ -123,23 +140,11 @@ startFrench.addEventListener("click", () => {
         }
     }
 
+    // Toon flashcards
     function showFlashcards() {
         document.getElementById("quiz").classList.remove("hidden");
         document.getElementById("result").classList.add("hidden");
+        planningSection.classList.add("hidden");
     }
 
-});
-const showPlanningBtn = document.getElementById("showPlanning");
-const planningSection = document.getElementById("planning");
-
-showPlanningBtn.addEventListener("click", () => {
-    // Hoofdmenu verbergen
-    document.getElementById("home").classList.add("hidden");
-
-    // Verberg andere secties
-    document.getElementById("quiz").classList.add("hidden");
-    document.getElementById("result").classList.add("hidden");
-
-    // Planning sectie tonen
-    planningSection.classList.remove("hidden");
 });
