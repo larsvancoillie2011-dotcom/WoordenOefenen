@@ -1,94 +1,134 @@
-/* Algemene styling */
-*, *::before, *::after { box-sizing: border-box; }
-body { margin:0; font-family:sans-serif; background:#f0f0f0; }
+document.addEventListener("DOMContentLoaded", () => {
 
-/* Header */
-.site-header {
-    background:#333; color:white; padding:10px 0; box-shadow:0 2px 5px rgba(0,0,0,0.2);
-}
-.header-content {
-    max-width:1200px; margin:0 auto; padding:0 20px;
-    display:flex; justify-content:space-between; align-items:center;
-}
-.logo { font-size:1.5em; font-weight:bold; }
-.site-header button { padding:8px 16px; border:none; border-radius:6px; background:#4f46e5; color:white; cursor:pointer; }
-.site-header button:hover { background:#3730a3; }
+    // Sidebar toggle
+    const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
 
-/* Sidebar */
-#sidebar {
-    position: fixed;
-    top: 0; left: -280px;
-    width: 280px; height: 100%;
-    display:flex; flex-direction:column; justify-content:flex-start;
-    background: linear-gradient(180deg,#2563eb,#1e40af);
-    color:white; padding:30px 20px;
-    border-top-right-radius:20px; border-bottom-right-radius:20px;
-    box-shadow:4px 0 15px rgba(0,0,0,0.3);
-    transition:left 0.4s ease;
-    z-index:1000;
-}
-#sidebar.open { left:0; }
+    menuBtn.addEventListener("click", () => {
+        sidebar.classList.add("open");
+        overlay.classList.add("active");
+    });
 
-#overlay {
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.3); display:none; z-index:900;
-}
-#overlay.active { display:block; }
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
+    });
 
-/* Home sectie */
-main { max-width:1200px; margin:0 auto; text-align:center; }
-.page-center-container { display:flex; align-items:center; justify-content:center; padding:20px; }
-.button-box { background:white; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.1);
-    width:100%; max-width:400px; padding:30px; display:flex; flex-direction:column; gap:30px; }
-.box-title { font-weight:bold; color:#555; margin-bottom:0; }
-.button-row { display: flex; justify-content: center; gap: 20px; width: 100%; }
-.button { background:#007BFF; color:white; border-radius:5px; cursor:pointer;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:10px; font-weight:bold; text-align:center; border:none;
-    transition: background 0.3s, transform 0.2s;
-}
-.button:hover { background:#0056b3; transform:translateY(-2px); }
-.button.main-btn { flex:1; padding:20px; font-size:1em; }
-.button.sub-btn { flex:1; padding:18px; font-size:0.9em; }
+    // Flashcards
+    const flashcards = [
+        { vraag: "Huis", antwoord: "House" },
+        { vraag: "Boom", antwoord: "Tree" },
+        { vraag: "Auto", antwoord: "Car" },
+        { vraag: "Water", antwoord: "Water" }
+    ];
 
-/* Flashcards */
-.hidden { display:none !important; }
-.flashcard-container { display:flex; flex-direction:column; align-items:center; margin-top:40px; }
-.flashcard { width:420px; height:260px; perspective:1000px; cursor:pointer; }
-.card-inner { width:100%; height:100%; transition:transform 0.6s; transform-style:preserve-3d; position:relative; }
-.flashcard.flipped .card-inner { transform:rotateY(180deg); }
-.card-face {
-    position:absolute; width:100%; height:100%; background:#2563eb; color:white; border-radius:16px;
-    display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:bold;
-    backface-visibility:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.2); padding:20px; text-align:center;
-}
-.card-back { background:#1e40af; transform:rotateY(180deg); }
+    let currentIndex = 0;
+    let wrongCards = [];
+    let activeCards = [];
 
-/* Juist/Fout knoppen */
-.actions { margin-top:30px; display:flex; gap:24px; justify-content:center; }
-button.primary, button.danger { padding:18px 28px; font-size:20px; font-weight:bold; border-radius:10px; cursor:pointer; border:none; }
-button.primary { background:#16a34a; color:white; }
-button.primary:hover { background:#15803d; }
-button.danger { background:#dc2626; color:white; }
-button.danger:hover { background:#b91c1c; }
+    const cardFront = document.getElementById("cardFront");
+    const cardBack = document.getElementById("cardBack");
+    const flashcardEl = document.getElementById("flashcard");
 
-/* Foute woorden lijst */
-#result { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; padding:20px; }
-#wrongList { list-style:none; padding:0; margin:20px 0; display:flex; flex-direction:column; gap:6px; width:90%; max-width:500px; }
-#wrongList li { font-size:20px; background:#fef3c7; color:#b45309; padding:8px 16px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.12); transition:transform 0.2s, box-shadow 0.2s; }
-#wrongList li:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
-#repeatWrongBtn, #repeatAllBtn { margin-bottom:12px; }
+    const startFrench = document.getElementById("startFrench");
+    const correctBtn = document.getElementById("correctBtn");
+    const wrongBtn = document.getElementById("wrongBtn");
+    const repeatWrongBtn = document.getElementById("repeatWrongBtn");
+    const repeatAllBtn = document.getElementById("repeatAllBtn");
 
-/* Planning sectie */
-#planning { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; min-height:60vh; }
-#planning img { max-width:90%; height:auto; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+    const showPlanningBtn = document.getElementById("showPlanning");
+    const planningSection = document.getElementById("planning");
 
-/* Responsive */
-@media (max-width:768px){
-    .flashcard { width:90%; height:240px; }
-    .card-face { font-size:24px; }
-    .actions { flex-direction:column; width:100%; }
-    .actions button { width:100%; }
-    #sidebar { width:80%; }
-    .button-row { flex-direction:column; gap:12px; }
-}
+    flashcardEl.addEventListener("click", () => {
+        if (!flashcardEl.classList.contains("flipped")) {
+            cardBack.textContent = activeCards[currentIndex].antwoord;
+        }
+        flashcardEl.classList.toggle("flipped");
+    });
+
+    startFrench.addEventListener("click", () => {
+        document.getElementById("home").classList.add("hidden");
+        planningSection.classList.add("hidden");
+        activeCards = [...flashcards];
+        wrongCards = [];
+        currentIndex = 0;
+        showFlashcards();
+        loadCard();
+    });
+
+    correctBtn.addEventListener("click", nextCard);
+    wrongBtn.addEventListener("click", () => {
+        wrongCards.push(activeCards[currentIndex]);
+        nextCard();
+    });
+
+    repeatWrongBtn.addEventListener("click", () => {
+        if(wrongCards.length === 0) return;
+        activeCards = [...wrongCards];
+        wrongCards = [];
+        currentIndex = 0;
+        showFlashcards();
+        loadCard();
+    });
+
+    repeatAllBtn.addEventListener("click", () => {
+        activeCards = [...flashcards];
+        wrongCards = [];
+        currentIndex = 0;
+        showFlashcards();
+        loadCard();
+    });
+
+    showPlanningBtn.addEventListener("click", () => {
+        document.getElementById("home").classList.add("hidden");
+        document.getElementById("quiz").classList.add("hidden");
+        document.getElementById("result").classList.add("hidden");
+        planningSection.classList.remove("hidden");
+    });
+
+    function loadCard() {
+        const card = activeCards[currentIndex];
+        cardFront.textContent = card.vraag;
+        cardBack.textContent = "";
+        flashcardEl.classList.remove("flipped");
+        document.getElementById("result").classList.add("hidden");
+        document.getElementById("wrongList").innerHTML = "";
+        repeatWrongBtn.classList.add("hidden");
+        repeatAllBtn.classList.add("hidden");
+        document.getElementById("resultTitle").classList.add("hidden");
+    }
+
+    function nextCard() {
+        currentIndex++;
+        if (currentIndex >= activeCards.length) showResults();
+        else loadCard();
+    }
+
+    function showResults() {
+        document.getElementById("quiz").classList.add("hidden");
+        const list = document.getElementById("wrongList");
+        list.innerHTML = "";
+        document.getElementById("resultTitle").classList.remove("hidden");
+        document.getElementById("result").classList.remove("hidden");
+
+        if (wrongCards.length === 0) {
+            list.innerHTML = "<li>Alles juist! 🎉</li>";
+            repeatAllBtn.classList.remove("hidden");
+        } else {
+            wrongCards.forEach(c => {
+                const li = document.createElement("li");
+                li.textContent = `${c.vraag} → ${c.antwoord}`;
+                list.appendChild(li);
+            });
+            repeatWrongBtn.classList.remove("hidden");
+        }
+    }
+
+    function showFlashcards() {
+        document.getElementById("quiz").classList.remove("hidden");
+        document.getElementById("result").classList.add("hidden");
+        planningSection.classList.add("hidden");
+    }
+
+});
