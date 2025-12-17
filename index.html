@@ -2,9 +2,9 @@
 <html lang="nl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Woorden Oefenaar</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -17,28 +17,26 @@
 
 <div id="overlay" class="overlay"></div>
 
-<!-- SIDEBAR -->
 <nav id="sidebar" class="sidebar" aria-hidden="true">
   <h3>Menu</h3>
 
   <!-- FRANS -->
   <button class="dropdown-btn" data-id="frans">Frans ▼</button>
   <div class="dropdown-content hidden" data-parent="frans">
-    <!-- sub-dropdown 1 -->
     <button class="sub-dropdown-btn">Group 1 ▼</button>
     <div class="sub-content hidden">
       <button class="set-btn" data-lang="frans" data-group="g1" data-set="s1">Set 1</button>
       <button class="set-btn" data-lang="frans" data-group="g1" data-set="s2">Set 2</button>
       <button class="set-btn" data-lang="frans" data-group="g1" data-set="s3">Set 3</button>
     </div>
-    <!-- sub-dropdown 2 -->
+
     <button class="sub-dropdown-btn">Group 2 ▼</button>
     <div class="sub-content hidden">
       <button class="set-btn" data-lang="frans" data-group="g2" data-set="s1">Set 1</button>
       <button class="set-btn" data-lang="frans" data-group="g2" data-set="s2">Set 2</button>
       <button class="set-btn" data-lang="frans" data-group="g2" data-set="s3">Set 3</button>
     </div>
-    <!-- sub-dropdown 3 -->
+
     <button class="sub-dropdown-btn">Group 3 ▼</button>
     <div class="sub-content hidden">
       <button class="set-btn" data-lang="frans" data-group="g3" data-set="s1">Set 1</button>
@@ -99,7 +97,6 @@
 </nav>
 
 <main>
-  <!-- Hoofdmenu -->
   <section id="home">
     <h1>Hoofdpagina Menu</h1>
     <div class="page-center-container">
@@ -116,7 +113,6 @@
     </div>
   </section>
 
-  <!-- Flashcards -->
   <section id="quiz" class="hidden" aria-hidden="true">
     <div class="flashcard-container">
       <div class="flashcard" id="flashcard" tabindex="0" role="button">
@@ -126,13 +122,13 @@
         </div>
       </div>
     </div>
+
     <div class="actions">
       <button class="primary" id="correctBtn">Juist</button>
       <button class="danger" id="wrongBtn">Fout</button>
     </div>
   </section>
 
-  <!-- Resultaten -->
   <section id="result" class="hidden" aria-hidden="true">
     <h2 id="resultTitle">Foute woorden</h2>
     <div class="result-actions">
