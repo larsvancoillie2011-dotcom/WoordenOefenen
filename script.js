@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
     // Sidebar
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
@@ -14,45 +15,96 @@ document.addEventListener("DOMContentLoaded", () => {
         overlay.classList.remove("active");
     });
 
-    // Flashcards
-    const flashcards = [
-        { vraag: "Huis", antwoord: "House" },
-        { vraag: "Boom", antwoord: "Tree" },
-        { vraag: "Auto", antwoord: "Car" },
-        { vraag: "Water", antwoord: "Water" }
-    ];
+    // Dropdown
+    const dropdownBtn = document.getElementById("dropdownBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    dropdownBtn.addEventListener("click", () => {
+        dropdownMenu.classList.toggle("hidden");
+    });
 
-    let currentIndex = 0;
-    let wrongCards = [];
+    // Flashcards data
+    const flashcardsData = {
+        frans: [
+            { vraag: "Huis", antwoord: "House" },
+            { vraag: "Boom", antwoord: "Tree" },
+            { vraag: "Auto", antwoord: "Car" },
+            { vraag: "Water", antwoord: "Water" }
+        ],
+        spaans: [
+            { vraag: "Casa", antwoord: "House" },
+            { vraag: "Árbol", antwoord: "Tree" },
+            { vraag: "Coche", antwoord: "Car" },
+            { vraag: "Agua", antwoord: "Water" }
+        ],
+        engels: [
+            { vraag: "House", antwoord: "Huis" },
+            { vraag: "Tree", antwoord: "Boom" },
+            { vraag: "Car", antwoord: "Auto" },
+            { vraag: "Water", antwoord: "Water" }
+        ]
+    };
+
     let activeCards = [];
+    let wrongCards = [];
+    let currentIndex = 0;
 
     const cardFront = document.getElementById("cardFront");
     const cardBack = document.getElementById("cardBack");
     const flashcardEl = document.getElementById("flashcard");
 
-    const startFrench = document.getElementById("startFrench");
     const correctBtn = document.getElementById("correctBtn");
     const wrongBtn = document.getElementById("wrongBtn");
     const repeatWrongBtn = document.getElementById("repeatWrongBtn");
     const repeatAllBtn = document.getElementById("repeatAllBtn");
-    const showPlanningBtn = document.getElementById("showPlanning");
+
+    const homeSection = document.getElementById("home");
+    const quizSection = document.getElementById("quiz");
+    const resultSection = document.getElementById("result");
+    const resultTitle = document.getElementById("resultTitle");
+    const wrongList = document.getElementById("wrongList");
     const planningSection = document.getElementById("planning");
 
-    flashcardEl.addEventListener("click", () => {
-        if (!flashcardEl.classList.contains("flipped")) {
-            cardBack.textContent = activeCards[currentIndex].antwoord;
-        }
-        flashcardEl.classList.toggle("flipped");
+    // Hoofdmenu knoppen starten quiz
+    const mainButtons = document.querySelectorAll("#home button[data-lang]");
+    mainButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const lang = btn.getAttribute("data-lang");
+            if (lang === "planning") {
+                homeSection.classList.add("hidden");
+                quizSection.classList.add("hidden");
+                resultSection.classList.add("hidden");
+                planningSection.classList.remove("hidden");
+            } else {
+                startQuiz(lang);
+            }
+        });
     });
 
-    startFrench.addEventListener("click", () => {
-        document.getElementById("home").classList.add("hidden");
+    // Sidebar dropdown taal
+    const langButtons = document.querySelectorAll(".language-btn");
+    langButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const lang = btn.getAttribute("data-lang");
+            startQuiz(lang);
+        });
+    });
+
+    function startQuiz(lang) {
+        homeSection.classList.add("hidden");
         planningSection.classList.add("hidden");
-        activeCards = [...flashcards];
+        resultSection.classList.add("hidden");
+        activeCards = [...flashcardsData[lang]];
         wrongCards = [];
         currentIndex = 0;
         showFlashcards();
         loadCard();
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
+    }
+
+    flashcardEl.addEventListener("click", () => {
+        cardBack.textContent = activeCards[currentIndex].antwoord;
+        flashcardEl.classList.toggle("flipped");
     });
 
     correctBtn.addEventListener("click", nextCard);
@@ -71,30 +123,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     repeatAllBtn.addEventListener("click", () => {
-        activeCards = [...flashcards];
+        activeCards = [...flashcardsData.frans];
         wrongCards = [];
         currentIndex = 0;
         showFlashcards();
         loadCard();
     });
 
-    showPlanningBtn.addEventListener("click", () => {
-        document.getElementById("home").classList.add("hidden");
-        document.getElementById("quiz").classList.add("hidden");
-        document.getElementById("result").classList.add("hidden");
-        planningSection.classList.remove("hidden");
-    });
-
     function loadCard() {
-        const card = activeCards[currentIndex];
-        cardFront.textContent = card.vraag;
+        cardFront.textContent = activeCards[currentIndex].vraag;
         cardBack.textContent = "";
         flashcardEl.classList.remove("flipped");
-        document.getElementById("result").classList.add("hidden");
-        document.getElementById("wrongList").innerHTML = "";
+        resultSection.classList.add("hidden");
+        wrongList.innerHTML = "";
         repeatWrongBtn.classList.add("hidden");
         repeatAllBtn.classList.add("hidden");
-        document.getElementById("resultTitle").classList.add("hidden");
+        resultTitle.classList.add("hidden");
     }
 
     function nextCard() {
@@ -104,28 +148,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showResults() {
-        document.getElementById("quiz").classList.add("hidden");
-        const list = document.getElementById("wrongList");
-        list.innerHTML = "";
-        document.getElementById("resultTitle").classList.remove("hidden");
-        document.getElementById("result").classList.remove("hidden");
+        quizSection.classList.add("hidden");
+        resultSection.classList.remove("hidden");
+        wrongList.innerHTML = "";
+        resultTitle.classList.remove("hidden");
 
         if (wrongCards.length === 0) {
-            list.innerHTML = "<li>Alles juist! 🎉</li>";
+            wrongList.innerHTML = "<li>Alles juist! 🎉</li>";
             repeatAllBtn.classList.remove("hidden");
         } else {
             wrongCards.forEach(c => {
                 const li = document.createElement("li");
                 li.textContent = `${c.vraag} → ${c.antwoord}`;
-                list.appendChild(li);
+                wrongList.appendChild(li);
             });
             repeatWrongBtn.classList.remove("hidden");
         }
     }
 
     function showFlashcards() {
-        document.getElementById("quiz").classList.remove("hidden");
-        document.getElementById("result").classList.add("hidden");
+        quizSection.classList.remove("hidden");
+        resultSection.classList.add("hidden");
         planningSection.classList.add("hidden");
     }
+
 });
