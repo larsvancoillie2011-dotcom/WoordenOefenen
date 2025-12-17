@@ -1,97 +1,149 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Woorden Oefenaar</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Woorden Oefenaar</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="site-header">
-    <div class="header-content">
-        <span class="logo">Woorden Oefenaar</span>
-        <button id="menuBtn" class="menu-btn">Menu</button>
-    </div>
+  <div class="header-content">
+    <span class="logo">Woorden Oefenaar</span>
+    <button id="menuBtn" class="menu-btn">Menu</button>
+  </div>
 </header>
 
 <div id="overlay" class="overlay"></div>
 
-<!-- Sidebar -->
+<!-- SIDEBAR -->
 <nav id="sidebar" class="sidebar" aria-hidden="true">
-    <h3>Menu</h3>
+  <h3>Menu</h3>
 
-    <!-- Frans Dropdown -->
-    <button class="dropdown-btn" data-id="frans">Frans ▼</button>
-    <div class="dropdown-content hidden" data-parent="frans">
-        <button class="set-btn" data-lang="frans" data-group="g1" data-set="s1">Set 1</button>
-        <button class="set-btn" data-lang="frans" data-group="g1" data-set="s2">Set 2</button>
-        <button class="set-btn" data-lang="frans" data-group="g1" data-set="s3">Set 3</button>
+  <!-- FRANS -->
+  <button class="dropdown-btn" data-id="frans">Frans ▼</button>
+  <div class="dropdown-content hidden" data-parent="frans">
+    <!-- sub-dropdown 1 -->
+    <button class="sub-dropdown-btn">Group 1 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="frans" data-group="g1" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="frans" data-group="g1" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="frans" data-group="g1" data-set="s3">Set 3</button>
+    </div>
+    <!-- sub-dropdown 2 -->
+    <button class="sub-dropdown-btn">Group 2 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="frans" data-group="g2" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="frans" data-group="g2" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="frans" data-group="g2" data-set="s3">Set 3</button>
+    </div>
+    <!-- sub-dropdown 3 -->
+    <button class="sub-dropdown-btn">Group 3 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="frans" data-group="g3" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="frans" data-group="g3" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="frans" data-group="g3" data-set="s3">Set 3</button>
+    </div>
+  </div>
+
+  <!-- SPAANS -->
+  <button class="dropdown-btn" data-id="spaans">Spaans ▼</button>
+  <div class="dropdown-content hidden" data-parent="spaans">
+    <button class="sub-dropdown-btn">Group 1 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="spaans" data-group="g1" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="spaans" data-group="g1" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="spaans" data-group="g1" data-set="s3">Set 3</button>
     </div>
 
-    <!-- Spaans Dropdown -->
-    <button class="dropdown-btn" data-id="spaans">Spaans ▼</button>
-    <div class="dropdown-content hidden" data-parent="spaans">
-        <button class="set-btn" data-lang="spaans" data-group="g1" data-set="s1">Set 1</button>
-        <button class="set-btn" data-lang="spaans" data-group="g1" data-set="s2">Set 2</button>
-        <button class="set-btn" data-lang="spaans" data-group="g1" data-set="s3">Set 3</button>
+    <button class="sub-dropdown-btn">Group 2 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="spaans" data-group="g2" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="spaans" data-group="g2" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="spaans" data-group="g2" data-set="s3">Set 3</button>
     </div>
 
-    <!-- Engels Dropdown -->
-    <button class="dropdown-btn" data-id="engels">Engels ▼</button>
-    <div class="dropdown-content hidden" data-parent="engels">
-        <button class="set-btn" data-lang="engels" data-group="g1" data-set="s1">Set 1</button>
-        <button class="set-btn" data-lang="engels" data-group="g1" data-set="s2">Set 2</button>
-        <button class="set-btn" data-lang="engels" data-group="g1" data-set="s3">Set 3</button>
+    <button class="sub-dropdown-btn">Group 3 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="spaans" data-group="g3" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="spaans" data-group="g3" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="spaans" data-group="g3" data-set="s3">Set 3</button>
     </div>
+  </div>
+
+  <!-- ENGELS -->
+  <button class="dropdown-btn" data-id="engels">Engels ▼</button>
+  <div class="dropdown-content hidden" data-parent="engels">
+    <button class="sub-dropdown-btn">Group 1 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="engels" data-group="g1" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="engels" data-group="g1" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="engels" data-group="g1" data-set="s3">Set 3</button>
+    </div>
+
+    <button class="sub-dropdown-btn">Group 2 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="engels" data-group="g2" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="engels" data-group="g2" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="engels" data-group="g2" data-set="s3">Set 3</button>
+    </div>
+
+    <button class="sub-dropdown-btn">Group 3 ▼</button>
+    <div class="sub-content hidden">
+      <button class="set-btn" data-lang="engels" data-group="g3" data-set="s1">Set 1</button>
+      <button class="set-btn" data-lang="engels" data-group="g3" data-set="s2">Set 2</button>
+      <button class="set-btn" data-lang="engels" data-group="g3" data-set="s3">Set 3</button>
+    </div>
+  </div>
 </nav>
 
 <main>
-    <!-- Hoofdmenu -->
-    <section id="home">
-        <h1>Hoofdpagina Menu</h1>
-        <div class="page-center-container">
-            <div class="button-box">
-                <p class="box-title">Maak een keuze:</p>
-                <div class="button-row">
-                    <button class="menu-start button" data-lang="frans" data-group="g1" data-set="s1">Frans</button>
-                </div>
-                <div class="button-row">
-                    <button class="menu-start button" data-lang="spaans" data-group="g1" data-set="s1">Spaans</button>
-                    <button class="menu-start button" data-lang="engels" data-group="g1" data-set="s1">Engels</button>
-                </div>
-            </div>
+  <!-- Hoofdmenu -->
+  <section id="home">
+    <h1>Hoofdpagina Menu</h1>
+    <div class="page-center-container">
+      <div class="button-box">
+        <p class="box-title">Maak een keuze:</p>
+        <div class="button-row">
+          <button class="menu-start button" data-lang="frans" data-group="g1" data-set="s1">Frans</button>
         </div>
-    </section>
+        <div class="button-row">
+          <button class="menu-start button" data-lang="spaans" data-group="g1" data-set="s1">Spaans</button>
+          <button class="menu-start button" data-lang="engels" data-group="g1" data-set="s1">Engels</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Flashcards -->
-    <section id="quiz" class="hidden" aria-hidden="true">
-        <div class="flashcard-container">
-            <div class="flashcard" id="flashcard" tabindex="0">
-                <div class="card-inner">
-                    <div class="card-face" id="cardFront"></div>
-                    <div class="card-face card-back" id="cardBack"></div>
-                </div>
-            </div>
+  <!-- Flashcards -->
+  <section id="quiz" class="hidden" aria-hidden="true">
+    <div class="flashcard-container">
+      <div class="flashcard" id="flashcard" tabindex="0" role="button">
+        <div class="card-inner">
+          <div class="card-face" id="cardFront"></div>
+          <div class="card-face card-back" id="cardBack"></div>
         </div>
-        <div class="actions">
-            <button class="primary" id="correctBtn">Juist</button>
-            <button class="danger" id="wrongBtn">Fout</button>
-        </div>
-    </section>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="correctBtn">Juist</button>
+      <button class="danger" id="wrongBtn">Fout</button>
+    </div>
+  </section>
 
-    <!-- Resultaten -->
-    <section id="result" class="hidden" aria-hidden="true">
-        <h2 id="resultTitle">Foute woorden</h2>
-        <div class="result-actions">
-            <button id="repeatWrongBtn" class="primary hidden">Herhaal foute woorden</button>
-            <button id="repeatAllBtn" class="primary hidden">Herhaal alles</button>
-        </div>
-        <ul id="wrongList"></ul>
-        <div class="back-home">
-            <button id="backHome" class="button">Terug naar hoofdmenu</button>
-        </div>
-    </section>
+  <!-- Resultaten -->
+  <section id="result" class="hidden" aria-hidden="true">
+    <h2 id="resultTitle">Foute woorden</h2>
+    <div class="result-actions">
+      <button id="repeatWrongBtn" class="primary hidden">Herhaal foute woorden</button>
+      <button id="repeatAllBtn" class="primary hidden">Herhaal alles</button>
+    </div>
+    <ul id="wrongList"></ul>
+    <div class="back-home">
+      <button id="backHome" class="button">Terug naar hoofdmenu</button>
+    </div>
+  </section>
 </main>
 
 <script src="script.js"></script>
