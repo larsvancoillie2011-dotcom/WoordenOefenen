@@ -1,175 +1,50 @@
-document.addEventListener("DOMContentLoaded", () => {
+* { box-sizing:border-box; margin:0; padding:0; font-family:sans-serif; }
+body { background:#f0f0f0; }
 
-    // Sidebar
-    const menuBtn = document.getElementById("menuBtn");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
+.site-header { background:#333; color:white; padding:10px; display:flex; justify-content:space-between; align-items:center; }
+.site-header button { background:#4f46e5; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; }
+.site-header button:hover { background:#3730a3; }
 
-    menuBtn.addEventListener("click", () => {
-        sidebar.classList.add("open");
-        overlay.classList.add("active");
-    });
+#sidebar { position:fixed; top:0; left:-280px; width:280px; height:100%; background:#1e40af; color:white; padding:20px; transition:left 0.3s; z-index:1000; }
+#sidebar.open { left:0; }
+#overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index:900; }
+#overlay.active { display:block; }
 
-    overlay.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("active");
-    });
+#dropdownMenu.hidden { display:none; }
+#dropdownMenu button { margin-top:5px; width:100%; padding:8px; border:none; border-radius:6px; cursor:pointer; background:#1e40af; color:white; }
+#dropdownMenu button:hover { background:#2563eb; }
 
-    // Dropdown
-    const dropdownBtn = document.getElementById("dropdownBtn");
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownBtn.addEventListener("click", () => {
-        dropdownMenu.classList.toggle("hidden");
-    });
+.hidden { display:none !important; }
 
-    // Flashcards data
-    const flashcardsData = {
-        frans: [
-            { vraag: "Huis", antwoord: "House" },
-            { vraag: "Boom", antwoord: "Tree" },
-            { vraag: "Auto", antwoord: "Car" },
-            { vraag: "Water", antwoord: "Water" }
-        ],
-        spaans: [
-            { vraag: "Casa", antwoord: "House" },
-            { vraag: "Árbol", antwoord: "Tree" },
-            { vraag: "Coche", antwoord: "Car" },
-            { vraag: "Agua", antwoord: "Water" }
-        ],
-        engels: [
-            { vraag: "House", antwoord: "Huis" },
-            { vraag: "Tree", antwoord: "Boom" },
-            { vraag: "Car", antwoord: "Auto" },
-            { vraag: "Water", antwoord: "Water" }
-        ]
-    };
+.page-center-container { display:flex; justify-content:center; padding:20px; }
+.button-box { background:white; padding:30px; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.1); display:flex; flex-direction:column; gap:20px; max-width:400px; width:100%; }
+.button-row { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+.button { flex:1; padding:15px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; color:white; background:#007BFF; transition:0.2s; }
+.button:hover { background:#0056b3; }
 
-    let activeCards = [];
-    let wrongCards = [];
-    let currentIndex = 0;
+.flashcard-container { display:flex; justify-content:center; margin-top:40px; }
+.flashcard { width:420px; height:260px; perspective:1000px; cursor:pointer; }
+.card-inner { width:100%; height:100%; transition:0.6s; transform-style:preserve-3d; position:relative; }
+.flashcard.flipped .card-inner { transform:rotateY(180deg); }
+.card-face { position:absolute; width:100%; height:100%; border-radius:16px; display:flex; justify-content:center; align-items:center; font-size:32px; font-weight:bold; backface-visibility:hidden; color:white; }
+#cardFront { background:#2563eb; }
+#cardBack { background:#1e40af; transform:rotateY(180deg); }
 
-    const cardFront = document.getElementById("cardFront");
-    const cardBack = document.getElementById("cardBack");
-    const flashcardEl = document.getElementById("flashcard");
+.actions { display:flex; gap:20px; justify-content:center; margin-top:20px; }
+button.primary { background:#16a34a; color:white; padding:12px 20px; border:none; border-radius:10px; cursor:pointer; }
+button.primary:hover { background:#15803d; }
+button.danger { background:#dc2626; color:white; padding:12px 20px; border:none; border-radius:10px; cursor:pointer; }
+button.danger:hover { background:#b91c1c; }
 
-    const correctBtn = document.getElementById("correctBtn");
-    const wrongBtn = document.getElementById("wrongBtn");
-    const repeatWrongBtn = document.getElementById("repeatWrongBtn");
-    const repeatAllBtn = document.getElementById("repeatAllBtn");
+#result { display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:40px; }
+#wrongList { list-style:none; padding:0; margin:20px 0; display:flex; flex-direction:column; gap:6px; max-width:500px; width:90%; }
+#wrongList li { background:#fef3c7; color:#b45309; padding:8px 16px; border-radius:10px; }
 
-    const homeSection = document.getElementById("home");
-    const quizSection = document.getElementById("quiz");
-    const resultSection = document.getElementById("result");
-    const resultTitle = document.getElementById("resultTitle");
-    const wrongList = document.getElementById("wrongList");
-    const planningSection = document.getElementById("planning");
+#planning { display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:40px; }
+#planning p { text-align:center; font-size:1.1em; }
 
-    // Hoofdmenu knoppen starten quiz
-    const mainButtons = document.querySelectorAll("#home button[data-lang]");
-    mainButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const lang = btn.getAttribute("data-lang");
-            if (lang === "planning") {
-                homeSection.classList.add("hidden");
-                quizSection.classList.add("hidden");
-                resultSection.classList.add("hidden");
-                planningSection.classList.remove("hidden");
-            } else {
-                startQuiz(lang);
-            }
-        });
-    });
-
-    // Sidebar dropdown taal
-    const langButtons = document.querySelectorAll(".language-btn");
-    langButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const lang = btn.getAttribute("data-lang");
-            startQuiz(lang);
-        });
-    });
-
-    function startQuiz(lang) {
-        homeSection.classList.add("hidden");
-        planningSection.classList.add("hidden");
-        resultSection.classList.add("hidden");
-        activeCards = [...flashcardsData[lang]];
-        wrongCards = [];
-        currentIndex = 0;
-        showFlashcards();
-        loadCard();
-        sidebar.classList.remove("open");
-        overlay.classList.remove("active");
-    }
-
-    flashcardEl.addEventListener("click", () => {
-        cardBack.textContent = activeCards[currentIndex].antwoord;
-        flashcardEl.classList.toggle("flipped");
-    });
-
-    correctBtn.addEventListener("click", nextCard);
-    wrongBtn.addEventListener("click", () => {
-        wrongCards.push(activeCards[currentIndex]);
-        nextCard();
-    });
-
-    repeatWrongBtn.addEventListener("click", () => {
-        if (wrongCards.length === 0) return;
-        activeCards = [...wrongCards];
-        wrongCards = [];
-        currentIndex = 0;
-        showFlashcards();
-        loadCard();
-    });
-
-    repeatAllBtn.addEventListener("click", () => {
-        activeCards = [...flashcardsData.frans];
-        wrongCards = [];
-        currentIndex = 0;
-        showFlashcards();
-        loadCard();
-    });
-
-    function loadCard() {
-        cardFront.textContent = activeCards[currentIndex].vraag;
-        cardBack.textContent = "";
-        flashcardEl.classList.remove("flipped");
-        resultSection.classList.add("hidden");
-        wrongList.innerHTML = "";
-        repeatWrongBtn.classList.add("hidden");
-        repeatAllBtn.classList.add("hidden");
-        resultTitle.classList.add("hidden");
-    }
-
-    function nextCard() {
-        currentIndex++;
-        if (currentIndex >= activeCards.length) showResults();
-        else loadCard();
-    }
-
-    function showResults() {
-        quizSection.classList.add("hidden");
-        resultSection.classList.remove("hidden");
-        wrongList.innerHTML = "";
-        resultTitle.classList.remove("hidden");
-
-        if (wrongCards.length === 0) {
-            wrongList.innerHTML = "<li>Alles juist! 🎉</li>";
-            repeatAllBtn.classList.remove("hidden");
-        } else {
-            wrongCards.forEach(c => {
-                const li = document.createElement("li");
-                li.textContent = `${c.vraag} → ${c.antwoord}`;
-                wrongList.appendChild(li);
-            });
-            repeatWrongBtn.classList.remove("hidden");
-        }
-    }
-
-    function showFlashcards() {
-        quizSection.classList.remove("hidden");
-        resultSection.classList.add("hidden");
-        planningSection.classList.add("hidden");
-    }
-
-});
+@media (max-width:768px) {
+    .flashcard { width:90%; height:220px; }
+    .card-face { font-size:24px; }
+    .actions { flex-direction:column; }
+}
