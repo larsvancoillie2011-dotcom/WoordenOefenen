@@ -1,4 +1,4 @@
-* { box-sizing:border-box; margin:0; padding:0; font-family: Arial, Helvetica, sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; font-family: Arial, sans-serif; }
 body { background:#f4f6fb; color:#111827; }
 
 /* header */
@@ -14,14 +14,9 @@ body { background:#f4f6fb; color:#111827; }
 .sidebar.open { left:0; }
 .sidebar h3 { margin-bottom:12px; }
 
-/* dropdown controls */
-.dropdown-btn, .sub-dropdown-btn, .set-btn {
-  display:block; width:100%; text-align:left; padding:10px 12px; margin:6px 0; border-radius:8px;
-  background:rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.06); cursor:pointer; font-weight:600;
-}
-.dropdown-btn:hover, .sub-dropdown-btn:hover, .set-btn:hover { background:rgba(255,255,255,0.12); }
-
-/* hidden helper */
+/* dropdowns */
+.dropdown-btn, .set-btn { display:block; width:100%; text-align:left; padding:10px 12px; margin:6px 0; border-radius:8px; background:rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.06); cursor:pointer; font-weight:600; }
+.dropdown-btn:hover, .set-btn:hover { background:rgba(255,255,255,0.12); }
 .hidden { display:none !important; }
 
 /* main */
@@ -51,11 +46,3 @@ main { padding:24px; max-width:980px; margin:0 auto; }
 #result { margin-top:18px; text-align:center; }
 #wrongList { list-style:none; margin-top:12px; display:flex; flex-direction:column; gap:8px; align-items:center; padding:0; }
 #wrongList li { background:#fff7ed; color:#92400e; padding:8px 12px; border-radius:8px; width:min(90%,460px); }
-
-/* responsive */
-@media (max-width:720px){
-  .flashcard { height:220px; }
-  .card-face { font-size:20px; }
-  .sidebar { width:92vw; left:-100vw; }
-  .button-row { flex-direction:column; }
-}
