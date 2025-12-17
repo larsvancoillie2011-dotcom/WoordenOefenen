@@ -1,61 +1,156 @@
-* { box-sizing:border-box; margin:0; padding:0; font-family: Arial, Helvetica, sans-serif; }
-body { background:#f4f6fb; color:#111827; }
+document.addEventListener("DOMContentLoaded", () => {
 
-/* header */
-.site-header { background:#0f172a; color:white; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; }
-.logo { font-weight:700; }
-.menu-btn { background:#2563eb; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+const setButtons = document.querySelectorAll(".set-btn");
+const homeButtons = document.querySelectorAll(".menu-start");
 
-/* overlay & sidebar */
-.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); display:none; z-index:900; }
-.overlay.active { display:block; }
+const homeSection = document.getElementById("home");
+const quizSection = document.getElementById("quiz");
+const resultSection = document.getElementById("result");
+const flashcardEl = document.getElementById("flashcard");
+const cardFront = document.getElementById("cardFront");
+const cardBack = document.getElementById("cardBack");
 
-.sidebar { position:fixed; top:0; left:-320px; width:320px; height:100vh; background:linear-gradient(180deg,#2563eb,#1e40af); color:white; padding:16px; transition:left .25s ease; z-index:1000; overflow:auto; }
-.sidebar.open { left:0; }
-.sidebar h3 { margin-bottom:12px; }
+const correctBtn = document.getElementById("correctBtn");
+const wrongBtn = document.getElementById("wrongBtn");
+const repeatWrongBtn = document.getElementById("repeatWrongBtn");
+const repeatAllBtn = document.getElementById("repeatAllBtn");
+const wrongList = document.getElementById("wrongList");
+const backHome = document.getElementById("backHome");
 
-/* dropdown controls */
-.dropdown-btn, .sub-dropdown-btn, .set-btn {
-  display:block; width:100%; text-align:left; padding:10px 12px; margin:6px 0; border-radius:8px;
-  background:rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.06); cursor:pointer; font-weight:600;
+// Basic flashcards data (demo)
+const flashcardsData = {
+  frans: { g1: { s1: [{vraag:"Bonjour",antwoord:"Hallo"}]} },
+  spaans: { g1: { s1: [{vraag:"Hola",antwoord:"Hallo"}]} },
+  engels: { g1: { s1: [{vraag:"Hello",antwoord:"Hallo"}]} }
+};
+
+let activeCards = [];
+let originalCards = [];
+let wrongCards = [];
+let currentIndex = 0;
+let flipped = false;
+
+// Sidebar open/close
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+});
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  dropdownBtns.forEach(d => { const c=d.nextElementSibling; if(c) c.classList.add("hidden"); });
+});
+
+// Dropdown toggle
+dropdownBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const content = btn.nextElementSibling;
+    if(content) content.classList.toggle("hidden");
+  });
+});
+
+// Start set from sidebar or home
+function startSet(lang, group, set) {
+  if(!flashcardsData[lang] || !flashcardsData[lang][group] || !flashcardsData[lang][group][set]) return;
+  originalCards = [...flashcardsData[lang][group][set]];
+  activeCards = [...originalCards];
+  wrongCards = [];
+  currentIndex = 0;
+  flipped = false;
+  homeSection.classList.add("hidden");
+  resultSection.classList.add("hidden");
+  quizSection.classList.remove("hidden");
+  loadCard();
 }
-.dropdown-btn:hover, .sub-dropdown-btn:hover, .set-btn:hover { background:rgba(255,255,255,0.12); }
 
-/* hidden helper */
-.hidden { display:none !important; }
+setButtons.forEach(btn => btn.addEventListener("click", () => {
+  startSet(btn.dataset.lang, btn.dataset.group, btn.dataset.set);
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+}));
 
-/* main */
-main { padding:24px; max-width:980px; margin:0 auto; }
-.page-center-container { display:flex; justify-content:center; }
-.button-box { background:white; padding:18px; border-radius:10px; box-shadow:0 6px 18px rgba(2,6,23,0.06); width:100%; max-width:640px; }
-.box-title { font-weight:700; margin-bottom:10px; color:#334155; }
-.button-row { display:flex; gap:10px; margin-top:8px; }
-.button { flex:1; padding:12px; border-radius:8px; border:none; background:#2563eb; color:white; cursor:pointer; font-weight:700; }
-.button:hover { background:#1e40af; }
+homeButtons.forEach(btn => btn.addEventListener("click", () => {
+  startSet(btn.dataset.lang, btn.dataset.group, btn.dataset.set);
+}));
 
-/* flashcard */
-.flashcard-container { display:flex; justify-content:center; margin-top:24px; }
-.flashcard { width:520px; max-width:92%; height:300px; perspective:1200px; cursor:pointer; }
-.card-inner { width:100%; height:100%; transition:transform .55s; transform-style:preserve-3d; position:relative; }
-.flashcard.flipped .card-inner { transform:rotateY(180deg); }
-.card-face { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; border-radius:14px; font-size:26px; font-weight:700; color:white; backface-visibility:hidden; padding:18px; text-align:center; }
-#cardFront { background:linear-gradient(180deg,#2563eb,#1e40af); }
-#cardBack { background:linear-gradient(180deg,#0ea5a9,#0891b2); transform:rotateY(180deg); }
+// Flashcard flip
+flashcardEl.addEventListener("click", () => {
+  flipped = !flipped;
+  flashcardEl.classList.toggle("flipped", flipped);
+  cardBack.textContent = flipped ? activeCards[currentIndex].antwoord : "";
+});
 
-/* actions */
-.actions { display:flex; justify-content:center; gap:12px; margin-top:14px; }
-.primary { background:#10b981; color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700; }
-.danger { background:#ef4444; color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700; }
+// Correct / Wrong buttons
+correctBtn.addEventListener("click", () => { nextCard(); });
+wrongBtn.addEventListener("click", () => { wrongCards.push(activeCards[currentIndex]); nextCard(); });
 
-/* results */
-#result { margin-top:18px; text-align:center; }
-#wrongList { list-style:none; margin-top:12px; display:flex; flex-direction:column; gap:8px; align-items:center; padding:0; }
-#wrongList li { background:#fff7ed; color:#92400e; padding:8px 12px; border-radius:8px; width:min(90%,460px); }
-
-/* responsive */
-@media (max-width:720px){
-  .flashcard { height:220px; }
-  .card-face { font-size:20px; }
-  .sidebar { width:92vw; left:-100vw; }
-  .button-row { flex-direction:column; }
+function nextCard() {
+  currentIndex++;
+  if(currentIndex >= activeCards.length) showResults();
+  else loadCard();
 }
+
+// Repeat buttons
+repeatWrongBtn.addEventListener("click", () => {
+  activeCards = [...wrongCards];
+  originalCards = [...activeCards];
+  wrongCards = [];
+  currentIndex = 0;
+  loadCard();
+});
+repeatAllBtn.addEventListener("click", () => {
+  activeCards = [...originalCards];
+  wrongCards = [];
+  currentIndex = 0;
+  loadCard();
+});
+
+// Back home
+backHome.addEventListener("click", () => {
+  quizSection.classList.add("hidden");
+  resultSection.classList.add("hidden");
+  homeSection.classList.remove("hidden");
+});
+
+// Load card
+function loadCard() {
+  if(!activeCards || activeCards.length===0) return;
+  if(currentIndex >= activeCards.length) { showResults(); return; }
+  cardFront.textContent = activeCards[currentIndex].vraag;
+  cardBack.textContent = "";
+  flipped = false;
+  flashcardEl.classList.remove("flipped");
+  quizSection.classList.remove("hidden");
+  resultSection.classList.add("hidden");
+  repeatWrongBtn.classList.add("hidden");
+  repeatAllBtn.classList.add("hidden");
+  wrongList.innerHTML = "";
+}
+
+// Show results
+function showResults() {
+  quizSection.classList.add("hidden");
+  resultSection.classList.remove("hidden");
+  wrongList.innerHTML = "";
+  if(!wrongCards || wrongCards.length===0){
+    const li=document.createElement("li");
+    li.textContent="Alles juist! 🎉";
+    wrongList.appendChild(li);
+    repeatAllBtn.classList.remove("hidden");
+    repeatWrongBtn.classList.add("hidden");
+  } else {
+    wrongCards.forEach(w=>{
+      const li=document.createElement("li");
+      li.textContent=`${w.vraag} → ${w.antwoord}`;
+      wrongList.appendChild(li);
+    });
+    repeatWrongBtn.classList.remove("hidden");
+    repeatAllBtn.classList.remove("hidden");
+  }
+}
+
+});
