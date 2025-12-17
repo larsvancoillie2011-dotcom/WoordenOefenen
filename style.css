@@ -1,59 +1,59 @@
 * { box-sizing:border-box; margin:0; padding:0; font-family: Arial, Helvetica, sans-serif; }
-body { background:#f4f6fb; color:#111827; font-size:156%; }
+body { background:#f4f6fb; color:#111827; font-size: 125%; }
 
 /* header */
-.site-header { background:#0f172a; color:white; padding:18px 25px; display:flex; justify-content:space-between; align-items:center; }
-.logo { font-weight:700; font-size:1.56em; }
-.menu-btn { background:#2563eb; color:white; border:none; padding:15px 19px; border-radius:12px; cursor:pointer; font-size:1.41em; }
+.site-header { background:#0f172a; color:white; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-weight:700; font-size:1.25em; }
+.menu-btn { background:#2563eb; color:white; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; font-size:1.125em; }
 
 /* overlay & sidebar */
 .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); display:none; z-index:900; }
 .overlay.active { display:block; }
 
-.sidebar { position:fixed; top:0; left:-400px; width:500px; height:100vh; background:linear-gradient(180deg,#2563eb,#1e40af); color:white; padding:25px; transition:left .25s ease; z-index:1000; overflow:auto; border-radius:0 20px 20px 0; }
+.sidebar { position:fixed; top:0; left:-320px; width:400px; height:100vh; background:linear-gradient(180deg,#2563eb,#1e40af); color:white; padding:20px; transition:left .25s ease; z-index:1000; overflow:auto; }
 .sidebar.open { left:0; }
-.sidebar h3 { margin-bottom:20px; font-size:1.56em; }
+.sidebar h3 { margin-bottom:15px; font-size:1.25em; }
 
 /* dropdowns */
 .dropdown-btn, .sub-dropdown-btn, .set-btn {
-  display:block; width:100%; text-align:left; padding:15px 18px; margin:10px 0; border-radius:12px;
-  background:rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.06); cursor:pointer; font-weight:600; font-size:1.41em;
+  display:block; width:100%; text-align:left; padding:12px 15px; margin:8px 0; border-radius:10px;
+  background:rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.06); cursor:pointer; font-weight:600; font-size:1.125em;
 }
 .dropdown-btn:hover, .sub-dropdown-btn:hover, .set-btn:hover { background:rgba(255,255,255,0.12); }
 .hidden { display:none !important; }
 
 /* main */
-main { padding:37.5px; max-width:1225px; margin:0 auto; }
+main { padding:30px; max-width:980px; margin:0 auto; }
 .page-center-container { display:flex; justify-content:center; }
-.button-box { background:white; padding:27.5px; border-radius:15px; box-shadow:0 9.375px 28.125px rgba(2,6,23,0.06); width:100%; max-width:1000px; }
-.box-title { font-weight:700; margin-bottom:15px; color:#334155; font-size:1.56em; }
-.button-row { display:flex; gap:15px; margin-top:12px; }
-.button { flex:1; padding:18.75px; border-radius:12.5px; border:none; background:#2563eb; color:white; cursor:pointer; font-weight:700; font-size:1.41em; }
+.button-box { background:white; padding:22px; border-radius:12px; box-shadow:0 7.5px 22.5px rgba(2,6,23,0.06); width:100%; max-width:640px; }
+.box-title { font-weight:700; margin-bottom:12px; color:#334155; font-size:1.25em; }
+.button-row { display:flex; gap:12px; margin-top:10px; }
+.button { flex:1; padding:15px; border-radius:10px; border:none; background:#2563eb; color:white; cursor:pointer; font-weight:700; font-size:1.125em; }
 .button:hover { background:#1e40af; }
 
 /* flashcards */
-.flashcard-container { display:flex; justify-content:center; margin-top:37.5px; }
-.flashcard { width:812px; max-width:95%; height:468px; perspective:1500px; cursor:pointer; }
+.flashcard-container { display:flex; justify-content:center; margin-top:30px; }
+.flashcard { width:650px; max-width:95%; height:375px; perspective:1200px; cursor:pointer; }
 .card-inner { width:100%; height:100%; transition:transform .55s; transform-style:preserve-3d; position:relative; }
 .flashcard.flipped .card-inner { transform:rotateY(180deg); }
-.card-face { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; border-radius:22.5px; font-size:40.625px; font-weight:700; color:white; backface-visibility:hidden; padding:27.5px; text-align:center; }
+.card-face { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; border-radius:18px; font-size:32.5px; font-weight:700; color:white; backface-visibility:hidden; padding:22px; text-align:center; }
 #cardFront { background:linear-gradient(180deg,#2563eb,#1e40af); }
 #cardBack { background:linear-gradient(180deg,#0ea5a9,#0891b2); transform:rotateY(180deg); }
 
 /* actions */
-.actions { display:flex; justify-content:center; gap:18.75px; margin-top:31.25px; }
-.primary { background:#10b981; color:white; border:none; padding:15.625px 21.875px; border-radius:12.5px; cursor:pointer; font-weight:700; font-size:1.41em; }
-.danger { background:#ef4444; color:white; border:none; padding:15.625px 21.875px; border-radius:12.5px; cursor:pointer; font-weight:700; font-size:1.41em; }
+.actions { display:flex; justify-content:center; gap:15px; margin-top:25px; }
+.primary { background:#10b981; color:white; border:none; padding:12.5px 17.5px; border-radius:10px; cursor:pointer; font-weight:700; font-size:1.125em; }
+.danger { background:#ef4444; color:white; border:none; padding:12.5px 17.5px; border-radius:10px; cursor:pointer; font-weight:700; font-size:1.125em; }
 
 /* results */
-#result { margin-top:27.5px; text-align:center; }
-#wrongList { list-style:none; margin-top:18.75px; display:flex; flex-direction:column; gap:12.5px; align-items:center; padding:0; }
-#wrongList li { background:#fff7ed; color:#92400e; padding:12.5px 18.75px; border-radius:12.5px; width:min(90%,460px); font-size:1.41em; }
+#result { margin-top:22px; text-align:center; }
+#wrongList { list-style:none; margin-top:15px; display:flex; flex-direction:column; gap:10px; align-items:center; padding:0; }
+#wrongList li { background:#fff7ed; color:#92400e; padding:10px 15px; border-radius:10px; width:min(90%,460px); font-size:1.125em; }
 
 /* responsive */
 @media (max-width:720px){
-  .flashcard { height:343px; }
-  .card-face { font-size:32px; }
-  .sidebar { width:115vw; left:-100vw; }
+  .flashcard { height:275px; }
+  .card-face { font-size:25px; }
+  .sidebar { width:92vw; left:-100vw; }
   .button-row { flex-direction:column; }
 }
