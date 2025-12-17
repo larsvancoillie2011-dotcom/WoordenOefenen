@@ -17,8 +17,15 @@
 
 <div id="overlay"></div>
 
+<!-- Sidebar met dropdown -->
 <div id="sidebar">
-    <h3>Sidebar</h3>
+    <h3>Menu</h3>
+    <button id="dropdownBtn">Talen ▼</button>
+    <div id="dropdownMenu" class="hidden">
+        <button class="language-btn" data-lang="frans">Frans</button>
+        <button class="language-btn" data-lang="spaans">Spaans</button>
+        <button class="language-btn" data-lang="engels">Engels</button>
+    </div>
 </div>
 
 <main>
@@ -29,11 +36,11 @@
             <div class="button-box">
                 <p class="box-title">Maak een keuze:</p>
                 <div class="button-row">
-                    <button class="button main-btn" id="startFrench">Frans</button>
+                    <button class="button main-btn" data-lang="frans">Frans</button>
                 </div>
                 <div class="button-row">
-                    <button class="button sub-btn" id="showPlanning">Planning</button>
-                    <button class="button sub-btn">Spaans</button>
+                    <button class="button sub-btn" data-lang="planning">Planning</button>
+                    <button class="button sub-btn" data-lang="spaans">Spaans</button>
                 </div>
             </div>
         </div>
