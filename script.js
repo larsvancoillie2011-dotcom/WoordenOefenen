@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const flashcardsData = {
     frans: {
       g1: {
-        s1: [{vraag:"Bonjour",antwoord:"Hallo"},{vraag:"Merci",antwoord:"Dank je"},{vraag:"Pomme",antwoord:"Appel"}],
+        s1: [{"vraag": "de agressiviteit", "antwoord": "l'agressivité (f)"}, {"vraag": "een engel", "antwoord": "un ange"}, {"vraag": "de drums", "antwoord": "la batterie"}, {"vraag": "het zelfvertrouwen", "antwoord": "la confiance"}, {"vraag": "de nieuwsgierigheid", "antwoord": "la curiosité"}, {"vraag": "een slechte eigenschap, gebrek", "antwoord": "un défaut"}, {"vraag": "een duivel", "antwoord": "un diable"}, {"vraag": "de betrouwbaarheid", "antwoord": "la fiabilité"}, {"vraag": "de vrijgevigheid", "antwoord": "la générosité"}, {"vraag": "een gitaar", "antwoord": "une guitare"}, {"vraag": "de vreugde", "antwoord": "la joie"}, {"vraag": "de naïviteit", "antwoord": "la naïveté"}, {"vraag": "de luiheid", "antwoord": "la paresse"}, {"vraag": "een hoofdpersonage", "antwoord": "un personnage principal"}, {"vraag": "een dichter", "antwoord": "un poète"}, {"vraag": "een straf", "antwoord": "une punition"}, {"vraag": "een goede eigenschap, kwaliteit", "antwoord": "une qualité"}, {"vraag": "Valentijnsdag", "antwoord": "un Saint-Valentin"}, {"vraag": "een bijnaam", "antwoord": "un surnom"}, {"vraag": "een karaktertrek", "antwoord": "un trait de caractère"}, {"vraag": "een viool", "antwoord": "un violon"}, {"vraag": "actief", "antwoord": "actif, active"}, {"vraag": "handig", "antwoord": "adroit, adroite"}, {"vraag": "opgewonden, nerveus, onrustig", "antwoord": "agité, agitée"}, {"vraag": "aangenaam", "antwoord": "agréable"}],
         s2: [{vraag:"Chat",antwoord:"Kat"},{vraag:"Chien",antwoord:"Hond"},{vraag:"Cheval",antwoord:"Paard"}],
         s3: [{vraag:"Maison",antwoord:"Huis"},{vraag:"Fenêtre",antwoord:"Ramen"},{vraag:"Porte",antwoord:"Deur"}]
       },
@@ -290,3 +290,4 @@ document.addEventListener("DOMContentLoaded", () => {
   quizSection.classList.add("hidden");
   resultSection.classList.add("hidden");
 });
+
